@@ -1,10 +1,6 @@
 import * as FaIcons from "react-icons/fa"
-import * as AiIcons from "react-icons/ai"
 import "./Navbar.css"
-import { SidebarData } from "./SidebarData"
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { IconContext } from "react-icons"
 
 const Navbar = ({ showSidebar, sidebar }) => {
     return (
@@ -13,6 +9,10 @@ const Navbar = ({ showSidebar, sidebar }) => {
                 {!sidebar && <Link to="#" className="menu-bars">
                     <FaIcons.FaBars color="#fff" onClick={showSidebar} />
                 </Link>}
+                <div className="ml-auto mr-4">
+                    <Link className="mr-2" to="/contact">Contact</Link>
+                    <Link className="mr-2" to="/about">About</Link>
+                </div>
             </nav>
         </>
     );

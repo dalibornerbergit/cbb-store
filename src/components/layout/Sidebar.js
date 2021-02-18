@@ -6,9 +6,9 @@ import "./Navbar.css"
 const Sidebar = ({ sidebar, showSidebar }) => {
     return (
         <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-            <ul className="nav-menu-items" onClick={showSidebar}>
+            <ul className="nav-menu-items">
                 <li className="navbar-toggle">
-                    <Link to="#" className="menu-bars">
+                    <Link to="#" className="sidebar-closer">
                         <AiIcons.AiOutlineClose onClick={showSidebar} />
                     </Link>
                 </li>

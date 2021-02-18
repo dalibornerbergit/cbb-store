@@ -6,9 +6,8 @@
 }
 
 .menu-bars {
-    margin-left: auto;
+    margin-left: 2rem;
     margin-right: 2rem;
-    font-size: 2rem;
     background: none;
 }
 
@@ -18,9 +17,14 @@
     min-width: 250px;
     max-width: 250px;
     height: 93vh;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
-    transition: 850ms;
+    transition: 350ms;
+}
+
+.sidebar-closer {
+    font-size: 2rem;
+    margin: auto;
 }
 
 .nav-menu.active {
@@ -62,8 +66,4 @@
     height: 80px;
     display: flex;
     align-items: center;
-}
-
-span {
-    margin-left: 16px;
 }
