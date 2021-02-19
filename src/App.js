@@ -11,6 +11,8 @@ import CreateCustomer from './components/customers/CreateCustomer';
 import EditCustomer from './components/customers/EditCustomer';
 import ProductList from './components/products/ProductList';
 import CreateProduct from './components/products/CreateProduct';
+import EditProduct from './components/products/EditProduct';
+import UpdateProduct from "./components/products/UpdateProduct"
 
 function App() {
   const [sidebar, setSidebar] = useState(true)
@@ -30,10 +32,12 @@ function App() {
             <Route path="/contact" component={Contact} />
             <Route path="/about" component={About} />
             <Route path="/customers" exact component={CustomerList} />
-            <Route path="/customers/create" exact component={CreateCustomer} />
+            <Route path="/customers/create" component={CreateCustomer} />
             <Route path="/customers/:id/edit" component={EditCustomer} />
             <Route path="/products" exact component={ProductList} />
             <Route path="/products/create" component={CreateProduct} />
+            <Route path="/products/:id/edit" component={EditProduct} />
+            {/* <Route path="/products/:id/edit" component={UpdateProduct} /> */}
           </Switch>
         </div>
       </Router>

@@ -5,14 +5,27 @@ import { Button } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
+import ProductDeleteModal from "./ProductDeleteModal"
 import * as AiIcons from "react-icons/ai"
 import * as FaIcons from "react-icons/fa"
+import { Alert } from "react-bootstrap";
 
 const ProductList = () => {
     const [products, setProducts] = useState([])
+    const [productDelete, setProductDelete] = useState({})
     const [loaded, setLoaded] = useState(false)
-    const { SearchBar } = Search;
+    const [update, setUpdate] = useState(new Date())
+    const [showAlert, setShowAlert] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    
 
+    const handleClose = () => setShowDeleteModal(false);
+    const openDeleteModal = (product) => {
+        setShowDeleteModal(true)
+        setProductDelete(product)
+    }
+
+    const { SearchBar } = Search;
 
     const columns = [
         {
@@ -34,6 +47,7 @@ const ProductList = () => {
             text: 'Actions',
             dataField: 'button',
             formatter: (rowContent, row) => {
+               
                 return (
                     <div className="d-flex justify-content-center">
                         <Link className="text-light" to={"products/" + row.productId + "/edit"}>
@@ -42,7 +56,7 @@ const ProductList = () => {
                             </Button>
                         </Link>
 
-                        <Button className="bg-transparent border-light mx-2">
+                        <Button onClick={() => openDeleteModal(row)} className="bg-transparent border-light mx-2">
                             <FaIcons.FaTrash color="red" />
                         </Button>
                     </div>
@@ -88,10 +102,16 @@ const ProductList = () => {
                 setLoaded(true)
             })
             .catch(err => err)
-    }, [])
+    }, [update])
 
     return (
         <div className="content">
+            <Alert variant="success" show={showAlert}>
+                {productDelete.productName} deleted
+            </Alert>
+
+            <ProductDeleteModal show={showDeleteModal} handleClose={handleClose} product={productDelete} setUpdate={setUpdate} setShowAlert={setShowAlert} />
+
             <div className="d-flex justify-content-end">
                 <Link to="/products/create">
                     <Button>

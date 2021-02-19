@@ -5,9 +5,9 @@ import { CustomerForm } from "./CustomerForm";
 
 const UpdateCustomer = (props) => {
     const [data, setData] = useState(null)
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false)
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => setShow(false)
     const handleSuccess = () => setShow(true)
 
     useEffect(() => {
@@ -20,7 +20,8 @@ const UpdateCustomer = (props) => {
 
     return (
         <div className="content">
-            <Prompt title={"Success"} text={"Edited user"} show={show} handleClose={handleClose} />
+            <Prompt title={"Success"} text={"Edited user"} show={show} handleClose={handleClose} url="/customers" />
+
             <h1>Edit customer</h1>
 
             <div className="my-4">

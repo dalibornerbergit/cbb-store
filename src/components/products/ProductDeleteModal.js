@@ -1,12 +1,16 @@
 import { Button, Modal } from "react-bootstrap"
-import { customerServices } from "../../services/customerServices";
+import { productServices } from "../../services/productServices";
 
-const DeleteModal = ({ show, customer, handleClose, setUpdate }) => {
+const ProductDelete = ({ show, handleClose, product, setUpdate, setShowAlert }) => {
     const handleDelete = () => {
-        customerServices.deleteCustomer(customer.customerId)
-            .then(res => {
+        productServices.deleteProduct(product.productId)
+            .then(() => {
                 setUpdate(new Date())
                 handleClose()
+                setShowAlert(true)
+                setTimeout(() => {
+                    setShowAlert(false)
+                }, 3000);
             })
             .catch(err => err)
     }
@@ -16,7 +20,7 @@ const DeleteModal = ({ show, customer, handleClose, setUpdate }) => {
             <Modal.Header closeButton>
                 <Modal.Title>Delete</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Are you sure you want do delete {customer && customer.firstName}?</Modal.Body>
+            <Modal.Body>Are you sure you want do delete {product.productId}?</Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Cancel
@@ -29,4 +33,4 @@ const DeleteModal = ({ show, customer, handleClose, setUpdate }) => {
     );
 }
 
-export default DeleteModal;
+export default ProductDelete;

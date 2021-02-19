@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { customerServices } from "../../services/customerServices"
 import { Link } from "react-router-dom"
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-import DeleteModal from "../common/DeleteModal";
+import CustomerDeleteModal from "./CustomerDeleteModal";
 import * as AiIcons from "react-icons/ai"
 import * as FaIcons from "react-icons/fa"
 
@@ -13,16 +13,17 @@ const CustomerList = () => {
     const [customers, setCustomers] = useState([])
     const [customerDelete, setCustomerDelete] = useState({})
     const [loaded, setLoaded] = useState(false)
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [update, setUpdate] = useState(new Date())
+    const [showAlert, setShowAlert] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleClose = () => setShowDeleteModal(false);
     const openDeleteModal = (customer) => {
         setShowDeleteModal(true)
         setCustomerDelete(customer)
     }
-    const { SearchBar } = Search;
 
+    const { SearchBar } = Search;
 
     const columns = [
         {
@@ -101,7 +102,11 @@ const CustomerList = () => {
 
     return (
         <div className="content">
-            <DeleteModal handleClose={handleClose} customer={customerDelete} show={showDeleteModal} setUpdate={setUpdate} />
+            <Alert variant="success" show={showAlert}>
+                {customerDelete.firstName} {customerDelete.lastName} deleted
+            </Alert>
+
+            <CustomerDeleteModal handleClose={handleClose} customer={customerDelete} show={showDeleteModal} setUpdate={setUpdate} setShowAlert={setShowAlert} />
 
             <div className="d-flex justify-content-end">
                 <Link to="/customers/create">
