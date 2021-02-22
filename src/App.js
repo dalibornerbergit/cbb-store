@@ -13,6 +13,7 @@ import ProductList from './components/products/ProductList';
 import CreateProduct from './components/products/CreateProduct';
 import EditProduct from './components/products/EditProduct';
 import UpdateProduct from "./components/products/UpdateProduct"
+import Footer from './components/layout/Footer';
 
 function App() {
   const [sidebar, setSidebar] = useState(true)
@@ -40,6 +41,7 @@ function App() {
             {/* <Route path="/products/:id/edit" component={UpdateProduct} /> */}
           </Switch>
         </div>
+        <Footer />
       </Router>
     </>
   );

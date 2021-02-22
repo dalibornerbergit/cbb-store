@@ -23,7 +23,7 @@ async function addProduct(product) {
 }
 
 async function updateProduct(product) {
-    return axios.put(`${url}/${product.id}`, product).then(res => res).catch(err => err.response)
+    return axios.put(`${url}/${product.productId}`, product).then(res => res).catch(err => err.response)
 }
 
 async function deleteProduct(id) {

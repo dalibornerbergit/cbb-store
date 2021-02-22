@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { productServices } from "../../services/productServices";
 import { Link } from "react-router-dom"
-import { Button, Spinner } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import ProductDeleteModal from "./ProductDeleteModal"
 import * as AiIcons from "react-icons/ai"
 import * as FaIcons from "react-icons/fa"
-import { Alert } from "react-bootstrap";
 
 const ProductList = () => {
     const [products, setProducts] = useState([])
