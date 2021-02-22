@@ -43,7 +43,7 @@ export function ProductForm({ preloadedValues, handleSuccess }) {
             {errors.productName && <p>{errors.productName.message}</p>}
 
             <div className="form-group">
-                <select className="form-control" name="brandId" ref={register({
+                <select value={preloadedValues.brandId} className="form-control" name="brandId" ref={register({
                     required: { value: true, message: "Required" },
                 })}>
                     {brands.map((brand) => (<option value={brand.brandId} key={brand.brandId}>{brand.brandName}</option>))}
@@ -52,12 +52,11 @@ export function ProductForm({ preloadedValues, handleSuccess }) {
             {errors.brandId && <p>{errors.brandId.message}</p>}
 
             <div className="form-group">
-                <select className="form-control" name="categoryId" ref={register({
+                <select value={preloadedValues.categoryId} className="form-control" name="categoryId" ref={register({
                     required: { value: true, message: "Required" },
                 })}>
                     {categories.map((category) => (
-                        <option selected={preloadedValues.categoryId === category.categoryId ? true : false}
-                            value={category.categoryId} key={category.categoryId} > {category.categoryName}</option>))}
+                        <option value={category.categoryId} key={category.categoryId} >{category.categoryName}</option>))}
                 </select>
             </div>
             { errors.categoryId && <p>{errors.categoryId.message}</p>}

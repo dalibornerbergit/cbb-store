@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { productServices } from "../../services/productServices";
 import { Link } from "react-router-dom"
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
@@ -13,11 +13,11 @@ import { Alert } from "react-bootstrap";
 const ProductList = () => {
     const [products, setProducts] = useState([])
     const [productDelete, setProductDelete] = useState({})
-    const [loaded, setLoaded] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false)
     const [update, setUpdate] = useState(new Date())
     const [showAlert, setShowAlert] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    
+
 
     const handleClose = () => setShowDeleteModal(false);
     const openDeleteModal = (product) => {
@@ -26,6 +26,12 @@ const ProductList = () => {
     }
 
     const { SearchBar } = Search;
+
+    const NoDataIndication = () => (
+        <div className="d-flex justify-content-center">
+            <span>No data available</span>
+        </div>
+    );
 
     const columns = [
         {
@@ -47,7 +53,7 @@ const ProductList = () => {
             text: 'Actions',
             dataField: 'button',
             formatter: (rowContent, row) => {
-               
+
                 return (
                     <div className="d-flex justify-content-center">
                         <Link className="text-light" to={"products/" + row.productId + "/edit"}>
@@ -97,9 +103,10 @@ const ProductList = () => {
     useEffect(() => {
         productServices.getProducts()
             .then(res => {
-                console.log(res.data)
-                setProducts(res.data)
-                setLoaded(true)
+                setTimeout(() => {
+                    setProducts(res.data)
+                    setIsLoaded(true)
+                }, 750);
             })
             .catch(err => err)
     }, [update])
@@ -135,11 +142,12 @@ const ProductList = () => {
                         props => (
                             <div>
                                 <SearchBar {...props.searchProps} />
-                                {loaded ? <BootstrapTable
+                                {isLoaded ? <BootstrapTable
                                     hover
                                     striped
                                     {...props.baseProps}
                                     pagination={paginationFactory(options)}
+                                    noDataIndication={() => <NoDataIndication />}
                                 /> : <h3>Loading...</h3>}
                             </div>
                         )
