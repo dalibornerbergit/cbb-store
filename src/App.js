@@ -1,26 +1,25 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
-import './App.css';
-import Home from './components/Home';
-import Contact from './components/Contact';
-import Sidebar from './components/layout/Sidebar';
-import About from './components/About';
-import { useState } from 'react';
-import CustomerList from './components/customers/CustomerList';
-import CreateCustomer from './components/customers/CreateCustomer';
-import EditCustomer from './components/customers/EditCustomer';
-import ProductList from './components/products/ProductList';
-import CreateProduct from './components/products/CreateProduct';
-import EditProduct from './components/products/EditProduct';
-import UpdateProduct from "./components/products/UpdateProduct"
-import Footer from './components/layout/Footer';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useState } from "react";
+import Navbar from "./components/layout/Navbar";
+import Home from "./components/Home";
+import Contact from "./components/Contact";
+import Sidebar from "./components/layout/Sidebar";
+import About from "./components/About";
+import CustomerList from "./components/customers/CustomerList";
+import CreateCustomer from "./components/customers/CreateCustomer";
+import EditCustomer from "./components/customers/EditCustomer";
+import ProductList from "./components/products/ProductList";
+import CreateProduct from "./components/products/CreateProduct";
+import EditProduct from "./components/products/EditProduct";
+import Footer from "./components/layout/Footer";
+import "./App.css";
 
 function App() {
-  const [sidebar, setSidebar] = useState(true)
+  const [sidebar, setSidebar] = useState(true);
 
   const showSidebar = () => {
-    setSidebar(!sidebar)
-  }
+    setSidebar(!sidebar);
+  };
 
   return (
     <>
@@ -38,9 +37,10 @@ function App() {
             <Route path="/products" exact component={ProductList} />
             <Route path="/products/create" component={CreateProduct} />
             <Route path="/products/:id/edit" component={EditProduct} />
-            {/* <Route path="/products/:id/edit" component={UpdateProduct} /> */}
           </Switch>
         </div>
+        {/* <button onClick={() => handleClick("hr")}>{t("Click")}</button>
+        <button onClick={() => handleClick("en")}>{t("Click")}</button> */}
         <Footer />
       </Router>
     </>

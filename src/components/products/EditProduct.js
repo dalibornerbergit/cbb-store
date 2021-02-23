@@ -11,7 +11,6 @@ const EditProduct = (props) => {
   const [show, setShow] = useState(false);
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
-  //   const [options, setOptions] = useState([]);
   const { control, register, handleSubmit, reset, errors } = useForm({
     defaultValues: data,
   });
@@ -122,14 +121,6 @@ const EditProduct = (props) => {
                 />
               )}
             </div>
-
-            {/* <div className="form-group">
-                    <select value={data.brandId} className="form-control" name="brandId" ref={register({
-                        required: { value: true, message: "Required" },
-                    })}>
-                        {brands.map((brand) => (<option value={brand.brandId} key={brand.brandId}>{brand.brandName}</option>))}
-                    </select>
-                </div> */}
             {errors.brandId && <p>{errors.brandId.message}</p>}
 
             <div className="form-group">
@@ -153,20 +144,6 @@ const EditProduct = (props) => {
               )}
             </div>
             {errors.categoryId && <p>{errors.categoryId.message}</p>}
-            {/* <select
-                value={data.categoryId}
-                className="form-control"
-                name="categoryId"
-                ref={register({
-                  required: { value: true, message: "Required" },
-                })}
-              >
-                {categories.map((category) => (
-                  <option value={category.categoryId} key={category.categoryId}>
-                    {category.categoryName}
-                  </option>
-                ))}
-              </select> */}
 
             <div className="form-group">
               <input
