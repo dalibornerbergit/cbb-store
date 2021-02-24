@@ -1,17 +1,16 @@
 import * as FaIcons from "react-icons/fa";
-import "./Navbar.css";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import "./Navbar.css";
 
 const Navbar = ({ showSidebar, sidebar }) => {
   const [lang, setLang] = useState("");
   const { t, i18n } = useTranslation();
 
-  const handleClick = (lang) => {
-    i18n.changeLanguage(lang);
-    setLang(lang);
+  const handleChange = (event) => {
+    i18n.changeLanguage(event.target.value);
+    setLang(event.target.value);
   };
 
   useEffect(() => {
@@ -27,19 +26,17 @@ const Navbar = ({ showSidebar, sidebar }) => {
           </Link>
         )}
         <div className="ml-auto mr-4">
-          <Button className="mx-2" onClick={() => handleClick("hr")}>
-            {t("Click")} RVACKI
-          </Button>
-          <Button className="mx-2" onClick={() => handleClick("en")}>
-            {t("Click")} eglenski
-          </Button>
-          <Link className="mr-2" to="/contact">
+          <select className="rounded p-2 mx-2" onChange={handleChange}>
+            <option value="en">Eglenski</option>
+            <option value="hr">Rvacki</option>
+          </select>
+          <Link className="mx-2" to="/contact">
             Contact
           </Link>
-          <Link className="mr-2" to="/about">
+          <Link className="mx-2" to="/about">
             About
           </Link>
-          <span className="bg-primary p-2 rounded">{lang}</span>
+          <span className="bg-primary p-2 mx-2 rounded">{lang}</span>
         </div>
       </nav>
     </>

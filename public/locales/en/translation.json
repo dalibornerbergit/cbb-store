@@ -1,4 +1,9 @@
 {
   "Click": "Choose",
-  "Home": "Home"
+  "Home": "Home",
+  "Customers": "Customers",
+  "Customer": "Customer",
+  "Products": "Products",
+  "Product": "Product",
+  "Create": "Create"
 }

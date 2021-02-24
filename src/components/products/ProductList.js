@@ -8,8 +8,10 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import ProductDeleteModal from "./ProductDeleteModal";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const ProductList = () => {
+  const { t, i18n } = useTranslation();
   const [products, setProducts] = useState([]);
   const [productDelete, setProductDelete] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
@@ -138,12 +140,12 @@ const ProductList = () => {
         <Link to="/products/create">
           <Button>
             <AiIcons.AiOutlinePlus />
-            Create product
+            {t("Create")} {t("Product")}
           </Button>
         </Link>
       </div>
 
-      <h1>Products</h1>
+      <h1>{t("Products")}</h1>
 
       <div>
         <ToolkitProvider

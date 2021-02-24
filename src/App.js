@@ -39,8 +39,6 @@ function App() {
             <Route path="/products/:id/edit" component={EditProduct} />
           </Switch>
         </div>
-        {/* <button onClick={() => handleClick("hr")}>{t("Click")}</button>
-        <button onClick={() => handleClick("en")}>{t("Click")}</button> */}
         <Footer />
       </Router>
     </>
