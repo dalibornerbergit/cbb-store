@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Navbar from "./components/layout/Navbar";
 import Home from "./components/Home";
 import Contact from "./components/Contact";
@@ -13,9 +13,11 @@ import CreateProduct from "./components/products/CreateProduct";
 import EditProduct from "./components/products/EditProduct";
 import Footer from "./components/layout/Footer";
 import "./App.css";
+import { ThemeContext } from "./contexts/ThemeContext";
 
 function App() {
   const [sidebar, setSidebar] = useState(true);
+  const { isDark } = useContext(ThemeContext);
 
   const showSidebar = () => {
     setSidebar(!sidebar);
@@ -25,7 +27,7 @@ function App() {
     <>
       <Router>
         <Navbar showSidebar={showSidebar} sidebar={sidebar} />
-        <div className="wrapper">
+        <div className={"wrapper " + (isDark && "bg-dark text-light")}>
           <Sidebar showSidebar={showSidebar} sidebar={sidebar} />
           <Switch>
             <Route path="/" exact component={Home} />

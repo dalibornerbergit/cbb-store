@@ -5,6 +5,7 @@ import { Alert, Button } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+import cellEditFactory from "react-bootstrap-table2-editor";
 import CustomerDeleteModal from "./CustomerDeleteModal";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
@@ -45,6 +46,7 @@ const CustomerList = () => {
     {
       text: "Actions",
       dataField: "button",
+      editable: false,
       formatter: (rowContent, row) => {
         return (
           <div className="d-flex justify-content-center">
@@ -77,7 +79,7 @@ const CustomerList = () => {
 
   const options = {
     paginationSize: 4,
-    pageStartIndex: 0,
+    pageStartIndex: 1,
     firstPageText: "First",
     prePageText: "Back",
     nextPageText: "Next",
@@ -156,6 +158,22 @@ const CustomerList = () => {
                   hover
                   striped
                   {...props.baseProps}
+                  cellEdit={cellEditFactory({
+                    mode: "dbclick",
+                    afterSaveCell: (oldValue, newValue, row, column) => {
+                      customerServices.updateCustomer({
+                        customerId: row.customerId,
+                        city: row.city,
+                        email: row.email,
+                        firstName: row.firstName,
+                        lastName: row.lastName,
+                        phone: row.phone,
+                        state: row.state,
+                        street: row.street,
+                        zipCode: row.zipCode,
+                      });
+                    },
+                  })}
                   pagination={paginationFactory(options)}
                 />
               ) : (

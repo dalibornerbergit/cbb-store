@@ -1,12 +1,19 @@
 import * as FaIcons from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
 import "./Navbar.css";
+import { Button } from "react-bootstrap";
 
 const Navbar = ({ showSidebar, sidebar }) => {
   const [lang, setLang] = useState("");
+  const [languages, setLanguages] = useState([
+    { value: "en", label: "Eglenski" },
+    { value: "hr", label: "Rvacki" },
+  ]);
   const { t, i18n } = useTranslation();
+  const { isDark, toggleTheme } = useContext(ThemeContext);
 
   const handleChange = (event) => {
     i18n.changeLanguage(event.target.value);
@@ -26,10 +33,20 @@ const Navbar = ({ showSidebar, sidebar }) => {
           </Link>
         )}
         <div className="ml-auto mr-4">
-          <select className="rounded p-2 mx-2" onChange={handleChange}>
-            <option value="en">Eglenski</option>
-            <option value="hr">Rvacki</option>
-          </select>
+          <Button onClick={toggleTheme}>{isDark ? "Odmrči" : "Zamrči"}</Button>
+          {lang && (
+            <select
+              defaultValue={lang}
+              className="rounded p-2 mx-2"
+              onChange={handleChange}
+            >
+              {languages.map((language) => (
+                <option value={language.value} key={language.value}>
+                  {language.label}
+                </option>
+              ))}
+            </select>
+          )}
           <Link className="mx-2" to="/contact">
             Contact
           </Link>

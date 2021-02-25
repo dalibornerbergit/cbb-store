@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { productServices } from "../../services/productServices";
+import { brandServices } from "../../services/brandServices";
+import { categoryServices } from "../../services/categoryServices";
 import { Link } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+import filterFactory, { selectFilter } from "react-bootstrap-table2-filter";
 import ProductDeleteModal from "./ProductDeleteModal";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
@@ -13,6 +16,8 @@ import { useTranslation } from "react-i18next";
 const ProductList = () => {
   const { t, i18n } = useTranslation();
   const [products, setProducts] = useState([]);
+  const [brands, setBrands] = useState(null);
+  const [categories, setCategories] = useState(null);
   const [productDelete, setProductDelete] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [update, setUpdate] = useState(new Date());
@@ -35,11 +40,6 @@ const ProductList = () => {
 
   const columns = [
     {
-      dataField: "productId",
-      text: "Product ID",
-      sort: true,
-    },
-    {
       dataField: "productName",
       text: "Product name",
       sort: true,
@@ -50,8 +50,29 @@ const ProductList = () => {
       sort: true,
     },
     {
+      dataField: "brandId",
+      text: "Brand Id",
+      sort: true,
+      formatter: (cell) => {
+        const newValue = brands.find((brand) => brand.value === cell);
+
+        return <span>{newValue.label}</span>;
+      },
+      filter: selectFilter({
+        options: brands,
+      }),
+    },
+    {
+      dataField: "categoryId",
+      text: "Category Id",
+      sort: true,
+      filter: selectFilter({
+        options: categories,
+      }),
+    },
+    {
       text: "Actions",
-      dataField: "button",
+      dataField: "actions",
       formatter: (rowContent, row) => {
         return (
           <div className="d-flex justify-content-center">
@@ -84,7 +105,7 @@ const ProductList = () => {
 
   const options = {
     paginationSize: 4,
-    pageStartIndex: 0,
+    pageStartIndex: 1,
     firstPageText: "First",
     prePageText: "Back",
     nextPageText: "Next",
@@ -112,12 +133,34 @@ const ProductList = () => {
     ],
   };
 
-  useEffect(() => {
-    productServices
+  useEffect(async () => {
+    await productServices
       .getProducts()
       .then((res) => {
         setProducts(res.data);
         setIsLoaded(true);
+      })
+      .catch((err) => err);
+
+    categoryServices
+      .getCategories()
+      .then((res) => {
+        setCategories(
+          res.data.map((category) => {
+            return { value: category.categoryId, label: category.categoryName };
+          })
+        );
+      })
+      .catch((err) => err);
+
+    brandServices
+      .getBrands()
+      .then((res) => {
+        setBrands(
+          res.data.map((brand) => {
+            return { value: brand.brandId, label: brand.brandName };
+          })
+        );
       })
       .catch((err) => err);
   }, [update]);
@@ -148,30 +191,33 @@ const ProductList = () => {
       <h1>{t("Products")}</h1>
 
       <div>
-        <ToolkitProvider
-          keyField="productId"
-          data={products}
-          columns={columns}
-          search
-          bootstrap4
-        >
-          {(props) => (
-            <div>
-              <SearchBar {...props.searchProps} />
-              {isLoaded ? (
-                <BootstrapTable
-                  hover
-                  striped
-                  {...props.baseProps}
-                  pagination={paginationFactory(options)}
-                  noDataIndication={() => <NoDataIndication />}
-                />
-              ) : (
-                <h3>Loading...</h3>
-              )}
-            </div>
-          )}
-        </ToolkitProvider>
+        {products && brands && categories && (
+          <ToolkitProvider
+            keyField="productId"
+            data={products}
+            columns={columns}
+            search
+            bootstrap4
+          >
+            {(props) => (
+              <div>
+                <SearchBar {...props.searchProps} />
+                {isLoaded ? (
+                  <BootstrapTable
+                    hover
+                    striped
+                    {...props.baseProps}
+                    pagination={paginationFactory(options)}
+                    filter={filterFactory()}
+                    noDataIndication={() => <NoDataIndication />}
+                  />
+                ) : (
+                  <h3>Loading...</h3>
+                )}
+              </div>
+            )}
+          </ToolkitProvider>
+        )}
       </div>
     </div>
   );
