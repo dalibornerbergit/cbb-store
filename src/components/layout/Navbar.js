@@ -2,9 +2,10 @@ import * as FaIcons from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import "./Navbar.css";
 import { Button } from "react-bootstrap";
+import "./Navbar.css";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 const Navbar = ({ showSidebar, sidebar }) => {
   const [lang, setLang] = useState("");
@@ -14,6 +15,7 @@ const Navbar = ({ showSidebar, sidebar }) => {
   ]);
   const { t, i18n } = useTranslation();
   const { isDark, toggleTheme } = useContext(ThemeContext);
+  const { width,isScreenMobile } = useContext(GlobalContext);
 
   const handleChange = (event) => {
     i18n.changeLanguage(event.target.value);
@@ -33,9 +35,11 @@ const Navbar = ({ showSidebar, sidebar }) => {
           </Link>
         )}
         <div className="ml-auto mr-4">
-          <Button onClick={toggleTheme}>
-            {isDark ? "Kršćaniziraj" : "Islamiziraj"}
-          </Button>
+          {width > 620 && (
+            <Button onClick={toggleTheme}>
+              {isDark ? "Kršćaniziraj" : "Islamiziraj"}
+            </Button>
+          )}
           {lang && (
             <select
               defaultValue={lang}
@@ -49,12 +53,16 @@ const Navbar = ({ showSidebar, sidebar }) => {
               ))}
             </select>
           )}
-          <Link className="mx-2" to="/contact">
-            Contact
-          </Link>
-          <Link className="mx-2" to="/about">
-            About
-          </Link>
+          {width > 620 && (
+            <Link className="mx-2" to="/contact">
+              Contact
+            </Link>
+          )}
+          {width > 620 && (
+            <Link className="mx-2" to="/about">
+              About
+            </Link>
+          )}
           <span className="bg-primary p-2 mx-2 rounded">{lang}</span>
         </div>
       </nav>
