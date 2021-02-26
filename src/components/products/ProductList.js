@@ -8,10 +8,10 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import filterFactory, { selectFilter } from "react-bootstrap-table2-filter";
-import ProductDeleteModal from "./ProductDeleteModal";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import DeletePrompt from "../common/DeletePrompt";
 
 const ProductList = () => {
   const { t, i18n } = useTranslation();
@@ -19,7 +19,7 @@ const ProductList = () => {
   const [brands, setBrands] = useState(null);
   const [categories, setCategories] = useState(null);
   const [productDelete, setProductDelete] = useState({});
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loaded, setloaded] = useState(false);
   const [update, setUpdate] = useState(new Date());
   const [showAlert, setShowAlert] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -138,7 +138,7 @@ const ProductList = () => {
       .getProducts()
       .then((res) => {
         setProducts(res.data);
-        setIsLoaded(true);
+        setloaded(true);
       })
       .catch((err) => err);
 
@@ -171,10 +171,12 @@ const ProductList = () => {
         {productDelete.productName} deleted
       </Alert>
 
-      <ProductDeleteModal
+      <DeletePrompt
         show={showDeleteModal}
         handleClose={handleClose}
-        product={productDelete}
+        item={productDelete.productName}
+        id={productDelete.productId}
+        entity="Products"
         setUpdate={setUpdate}
         setShowAlert={setShowAlert}
       />
@@ -191,33 +193,31 @@ const ProductList = () => {
       <h1>{t("Products")}</h1>
 
       <div>
-        {products && brands && categories && (
-          <ToolkitProvider
-            keyField="productId"
-            data={products}
-            columns={columns}
-            search
-            bootstrap4
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                {isLoaded ? (
-                  <BootstrapTable
-                    hover
-                    striped
-                    {...props.baseProps}
-                    pagination={paginationFactory(options)}
-                    filter={filterFactory()}
-                    noDataIndication={() => <NoDataIndication />}
-                  />
-                ) : (
-                  <h3>Loading...</h3>
-                )}
-              </div>
-            )}
-          </ToolkitProvider>
-        )}
+        <ToolkitProvider
+          keyField="productId"
+          data={products}
+          columns={columns}
+          search
+          bootstrap4
+        >
+          {(props) => (
+            <div>
+              <SearchBar {...props.searchProps} />
+              {loaded && brands && categories ? (
+                <BootstrapTable
+                  hover
+                  striped
+                  {...props.baseProps}
+                  pagination={paginationFactory(options)}
+                  filter={filterFactory()}
+                  noDataIndication={() => <NoDataIndication />}
+                />
+              ) : (
+                <h3>Loading...</h3>
+              )}
+            </div>
+          )}
+        </ToolkitProvider>
       </div>
     </div>
   );

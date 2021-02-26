@@ -33,7 +33,9 @@ const Navbar = ({ showSidebar, sidebar }) => {
           </Link>
         )}
         <div className="ml-auto mr-4">
-          <Button onClick={toggleTheme}>{isDark ? "Odmrči" : "Zamrči"}</Button>
+          <Button onClick={toggleTheme}>
+            {isDark ? "Kršćaniziraj" : "Islamiziraj"}
+          </Button>
           {lang && (
             <select
               defaultValue={lang}

@@ -6,10 +6,10 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import cellEditFactory from "react-bootstrap-table2-editor";
-import CustomerDeleteModal from "./CustomerDeleteModal";
 import * as AiIcons from "react-icons/ai";
 import * as FaIcons from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import DeletePrompt from "../common/DeletePrompt";
 
 const CustomerList = () => {
   const { t, i18n } = useTranslation();
@@ -123,9 +123,11 @@ const CustomerList = () => {
         {customerDelete.firstName} {customerDelete.lastName} deleted
       </Alert>
 
-      <CustomerDeleteModal
+      <DeletePrompt
         handleClose={handleClose}
-        customer={customerDelete}
+        item={customerDelete.firstName}
+        id={customerDelete.customerId}
+        entity="Customers"
         show={showDeleteModal}
         setUpdate={setUpdate}
         setShowAlert={setShowAlert}

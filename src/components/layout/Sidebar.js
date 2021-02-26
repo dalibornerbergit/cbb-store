@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { SidebarData } from "./SidebarData";
+import { Routes } from "../../router/Routes";
 import * as AiIcons from "react-icons/ai";
 import "./Navbar.css";
 
@@ -25,14 +25,16 @@ const Sidebar = ({ sidebar, showSidebar }) => {
             <AiIcons.AiOutlineClose onClick={showSidebar} />
           </Link>
         </li>
-        {SidebarData.map((item, index) => {
+        {Routes.map((route, index) => {
           return (
-            <li key={index} className={item.cName}>
-              <Link to={item.path}>
-                {item.icon}
-                <span>{item.title}</span>
-              </Link>
-            </li>
+            route.sidebar && (
+              <li key={index} className={route.cName}>
+                <Link to={route.path}>
+                  {route.icon}
+                  <span>{route.title}</span>
+                </Link>
+              </li>
+            )
           );
         })}
       </ul>
